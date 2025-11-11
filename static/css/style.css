@@ -1,0 +1,10 @@
+.navbar {
+  padding-top: 1rem;  /* increase vertical space */
+  padding-bottom: 1rem;
+}
+
+.navbar .nav-link {
+  font-size: 1.2rem;  /* larger text */
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
