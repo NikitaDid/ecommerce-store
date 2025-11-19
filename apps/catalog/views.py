@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 from apps.catalog.models import Category, Product
 from django.views import generic
 
@@ -34,4 +32,4 @@ class ProductsByCategoryView(generic.ListView):  # list of each category product
 
 class ProductDetailView(generic.DetailView):
     model = Product
-    template_name = 'catalog/product_list.html'
+    template_name = 'catalog/product.html'
