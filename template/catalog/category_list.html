@@ -1,20 +1,35 @@
 
-<!DOCTYPE html>
+{% extends "base.html" %}
+{% load static %}
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <ul>
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Categories</h2>
+
+    <div class="row">
         {% for category in categories %}
-            <li>
-                <a href="{% url 'catalog:category_detail' category.slug %}">{{ category.name }}</a>
-            </li>
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100">
+
+                    {% if category.image %}
+                        <img src="{{ category.image.url }}" class="card-img-top" alt="{{ category.name }}">
+                    {% else %}
+                        <img src="{% static 'img/no-image.png' %}">
+                    {% endif %}
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ category.name }}</h5>
+
+                        <a href="{% url 'catalog:category_detail' category.slug %}"
+                           class="btn btn-primary btn-sm">
+                            View
+                        </a>
+                    </div>
+                </div>
+            </div>
         {% empty %}
-        <li>No categories yet.</li>
-    {% endfor %}
-</ul>
-</body>
-</html>
+            <p>No categories yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
