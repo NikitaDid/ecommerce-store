@@ -1,6 +1,7 @@
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
-
+from imagekit.models import  ProcessedImageField, ImageSpecField
+from pilkit.processors import ResizeToFill
 
 class Category(MPTTModel):
     name = models.CharField(verbose_name='Name', max_length=255)
@@ -13,7 +14,13 @@ class Category(MPTTModel):
         blank=True,
         related_name='children'
     )
-
+    image = ProcessedImageField(
+        verbose_name='Image',
+        upload_to='catalog/categories',
+        processors=[ResizeToFill(600,400)],
+        null=True,
+        blank=True
+    )
 
 class Meta:
     verbose_name = 'Category'
@@ -30,6 +37,18 @@ class Product(models.Model):
     is_checked = models.BooleanField(verbose_name='Approved', default=False)
     created_at = models.DateTimeField(verbose_name='Created at', auto_now=True)
     updated_at = models.DateTimeField(verbose_name='Updated at', auto_now_add=True)
+    # image = models.ImageField(verbose_name='Image', upload_to='catalog/product/', null=True, blank=True)
+    image = ProcessedImageField(
+        verbose_name='Image',
+        upload_to='catalog/categories',
+        processors=[],
+        null=True,
+        blank=True
+    )
+    image_thumbnail = ImageSpecField(
+        source='image',
+        processors=[ResizeToFill(600,400)]
+    )
 
 
 # Intermediate model connecting Category and Product

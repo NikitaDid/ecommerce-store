@@ -1,26 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}{{ category.name }} Products{% endblock %}
 
 {% block content %}
-<h2>{{ category.name }}</h2>
+<div class="container mt-4">
+    <h2 class="mb-4">{{ category.name }}</h2>
 
-<ul>
-    {% for product in products %}
-        <a href="{% url 'catalog:product_detail' category.slug product.id %}">{{product.name}}</a>
-    {% empty %}
-        <li>Нет товаров в этой категории.</li>
-    {% endfor %}
-</ul>
+    <div class="row">
+        {% for product in products %}
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100">
 
-<a href="{% url 'catalog:category_list' %}">Back to catalog</a>
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" 
+                             class="card-img-top" 
+                             alt="{{ product.name }}">
+                    {% else %}
+                        <img src="{% static 'img/no-image.png' %}">
+                    {% endif %}
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+
+                        <a href="{% url 'catalog:product_detail' category.slug product.id %}"
+                           class="btn btn-primary btn-sm">
+                            View product
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>No products in this category.</p>
+        {% endfor %}
+    </div>
+
+    <a href="{% url 'catalog:category_list' %}" class="btn btn-link mt-3">
+        ← Back to catalog
+    </a>
+</div>
 {% endblock %}
-</body>
-</html>
