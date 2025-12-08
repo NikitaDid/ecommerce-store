@@ -1,7 +1,9 @@
+from idlelib.rpc import request_queue
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 
-from apps.user.forms import LoginForm
+from apps.user.forms import LoginForm, RegisterForm
 
 
 def user_login(request):
@@ -14,6 +16,23 @@ def user_login(request):
             if user:
                 login(request, user)
                 return redirect('home')
-        error = 'INVALID PASS OR LOGIN!!! DU HURENSOHN!'
+        error = 'INVALID PASS OR LOGIN!!!'
     return render(request, 'user/login.html', {'error': error})
 
+
+def user_register(request):
+    error = None
+    if request.method == 'POST':
+        form = RegisterForm(request.POST, request.FILES)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            return render(request, 'user/welcome.html', {'user': user})
+        error = form.errors
+    return render(request, 'user/register.html', {'error':error})
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('home.html')
