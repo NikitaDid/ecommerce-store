@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3 class="my-header">Добавлено!</h3>
+    <p>Товар <a href="{% url 'catalog:product_detail' slug=product.slug pk=product.pk%}">{{ product.name }}</a> добавлен в корзину</p>
+    {% include 'cart/_cart.html' %}
+{% endblock %}

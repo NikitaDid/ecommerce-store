@@ -47,7 +47,8 @@ INSTALLED_APPS = [
 
     'mptt',
     'imagekit',
-    'phonenumber_field'
+    'phonenumber_field',
+    'mathfilters',
 ]
 
 MIDDLEWARE = [
