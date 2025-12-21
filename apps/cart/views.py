@@ -32,3 +32,7 @@ def add_to_cart(request):
         return render(request, 'cart/added.html', {"product": cd['product'], "cart": get_cart_data(cd['user'])})
 
 
+@login_required
+def cart_view(request):
+    cart = get_cart_data(request.user)
+    return render(request, 'cart/cart.html',{'cart':cart})
