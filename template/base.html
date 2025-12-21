@@ -21,6 +21,11 @@
             <nav>
                 <a href="{% url 'catalog:category_list' %}" class="btn btn-outline-primary btn-sm">Catalog</a>
             </nav>
+            <nav>
+                {% if request.user.is_authenticated %}
+                	<a href="{% url 'cart:cart' %}" class="btn btn-outline-primary btn-sm">Cart</a>
+                {% endif %}
+            </nav>
         </div>
     </header>
 
