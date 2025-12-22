@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block meta_tags %}
+    {% include '_meta_tags.html' with meta_title='Placing an order' %}
+{% endblock %}
+
+{% block content %}
+    <h3 class="my-header">Placing an order!</h3>
+    {% include 'cart/_cart.html' %}
+
+    <div class="row">
+        <div class="col-sm-12 col-md-3"></div>
+        <div class="col-sm-12 col-md-6">
+            {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endif %}
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="first_name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="first_name" name="first_name" value="{{ form.initial.first_name }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="last_name" class="form-label">Surname</label>
+                    <input type="text" class="form-control" id="last_name" name="last_name" required value="{{ form.initial.last_name }}">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-mail</label>
+                    <input type="email" class="form-control" id="email" name="email" required value="{{ form.initial.email }}">
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone</label>
+                    <input type="text" class="form-control" id="phone" name="phone" required value="{{ form.initial.phone }}">
+                </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address</label>
+                    <textarea name="address" id="address" class="form-control" rows="3">{{ form.initial.address }}</textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="comment" class="form-label">Comment</label>
+                    <textarea name="comment" id="comment" class="form-control" rows="3">{{ form.initial.comment }}</textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Place an order</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
