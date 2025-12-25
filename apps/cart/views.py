@@ -1,8 +1,10 @@
+from django.db import transaction
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 from apps.cart.forms import AddToCartForm, CreateOrderForm
-from apps.cart.models import Cart
+from apps.cart.models import Cart, OrderProduct
+
 
 def get_cart_data(user):
     total = 0
@@ -11,7 +13,6 @@ def get_cart_data(user):
         total += row.quantity * row.product.price
 
     return {'total': total, 'cart': cart}
-
 
 
 @login_required
@@ -23,11 +24,15 @@ def add_to_cart(request):
     form = AddToCartForm(request.GET)
     if form.is_valid():
         cd = form.cleaned_data
-        row = Cart.objects.filter(user=cd['user'], product=cd['product']).first()
-        if row:
-            Cart.objects.filter(id=row.id).update(quantity=row.quantity + cd['quantity'])
-        else:
-            form.save()
+        csrf = request.session.get('cart_token')
+
+        if not csrf or csrf != data.get('csrfmiddlewaretoken'):
+            row = Cart.objects.filter(user=cd['user'], product=cd['product']).first()
+            if row:
+                Cart.objects.filter(id=row.id).update(quantity=row.quantity + cd['quantity'])
+            else:
+                form.save()
+            request.session['cart_token'] = data.get('csrfmiddlewaretoken')
 
         return render(request, 'cart/added.html', {"product": cd['product'], "cart": get_cart_data(cd['user'])})
 
@@ -35,7 +40,7 @@ def add_to_cart(request):
 @login_required
 def cart_view(request):
     cart = get_cart_data(request.user)
-    return render(request, 'cart/cart.html',{'cart':cart})
+    return render(request, 'cart/cart.html', {'cart': cart})
 
 
 @login_required
@@ -53,10 +58,25 @@ def create_order_view(request):
 
         form = CreateOrderForm(request.POST)
         if form.is_valid():
-            form.save()
-            Cart.objects.filter(user=user).delete()
-            return render(request, 'cart/created.html')
-        error = form.errors
+            try:
+                with transaction.atomic():  # db-level defence to prevent errors
+                    order = form.save()
+                    order_products = Cart.objects.filter(user=user).select_related('product')
+
+                    for order_product in order_products:
+                        OrderProduct.objects.create(
+                            order=order,
+                            product=order_product.product,
+                            quantity=order_product.quantity,
+                            price=order_product.product.price,
+                        )
+
+                    Cart.objects.filter(user=user).delete()
+                    return render(request, 'cart/created.html')
+            except Exception as e:
+                error = f'Order was not created. {e}. Please contact our manager!'
+        else:
+            error = form.errors
 
     else:
         form = CreateOrderForm(initial={
@@ -65,4 +85,10 @@ def create_order_view(request):
             'last_name': user.last_name,
             'email': user.email,
         })
-    return render(request, 'cart/create.html', {"cart":cart, "error":error, "form": form})
+    return render(request, 'cart/create.html', {"cart": cart, "error": error, "form": form})
+
+
+@login_required
+def delete_from_cart_view(request, product_id):
+    Cart.objects.filter(user=request.user, product=product_id).delete()
+    return redirect('cart:cart')
