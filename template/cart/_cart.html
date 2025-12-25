@@ -23,7 +23,7 @@
             <td>{{ row.product.price }}</td>
             <td>{{ row.product.price|mul:row.quantity }} $.</td>
             <td>
-                <button class="btn btn-danger">Delete</button>
+                <a href="{% url 'cart:delete_from_cart' product_id=row.product_id %}" class="btn btn-danger">Delete</a>
             </td>
         </tr>
     {% endfor %}
