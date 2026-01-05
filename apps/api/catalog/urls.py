@@ -1,5 +1,7 @@
 from django.urls import path
-from apps.api.catalog.views import ProductListView, ProductDetailView, ProductCreateView, ProductUpdateView, ProductDeleteView
+from apps.api.catalog.views import ProductListView, ProductDetailView, ProductCreateView, ProductUpdateView, ProductDeleteView, CategoryViewSet
+
+from rest_framework.routers import DefaultRouter
 
 app_name = 'catalog'
 
@@ -11,3 +13,7 @@ urlpatterns = [
     path('product/delete<int:pk>/', ProductDeleteView.as_view()),
 ]
 
+router = DefaultRouter()
+router.register('category', CategoryViewSet, basename='category' )
+
+urlpatterns += router.urls
