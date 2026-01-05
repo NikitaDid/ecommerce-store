@@ -5,6 +5,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 from imagekit.models import ProcessedImageField, ImageSpecField
 from pilkit.processors import ResizeToFill
 
+from apps.user.models import User
 from core.settings import MEDIA_ROOT
 
 
@@ -27,10 +28,12 @@ class Category(MPTTModel):
         blank=True
     )
 
+    def __str__(self):
+        return self.name
 
-class Meta:
-    verbose_name = 'Category'
-    verbose_name_plural = 'Categories'
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
 
 
 class ProductImage(models.Model):
@@ -82,6 +85,7 @@ class Product(models.Model):
     quantity = models.IntegerField(verbose_name='Quantity', null=True, blank=True)
     categories = models.ManyToManyField(Category, verbose_name='Categories', through='ProductCategory', blank=True)  #
     is_checked = models.BooleanField(verbose_name='Approved', default=False)
+    user = models.ForeignKey(User, verbose_name='User', null=True, blank=True, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(verbose_name='Created at', auto_now=True)
     updated_at = models.DateTimeField(verbose_name='Updated at', auto_now_add=True)
     # image = models.ImageField(verbose_name='Image', upload_to='catalog/product/', null=True, blank=True)
