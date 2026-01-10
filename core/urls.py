@@ -22,10 +22,11 @@ from django.conf.urls.static import static
 from core import settings
 
 urlpatterns = [
+    path('tinymce/', include('tinymce.urls')),
     path('admin/', admin.site.urls),
-    path('', include('apps.main.urls')),
     path('catalog/', include('apps.catalog.urls')),
     path('user/', include('apps.user.urls')),
     path('cart/', include('apps.cart.urls')),
     path('api/', include('apps.api.urls')),
+    path('', include('apps.main.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
