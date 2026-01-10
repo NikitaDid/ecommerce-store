@@ -1,12 +1,10 @@
-from xml.etree.ElementInclude import include
-
 from django.urls import path
-from django.urls import path
-from apps.main import views as main_views
 from apps.catalog import views as catalog_views
+from apps.main.views import PageView, index
 
 urlpatterns = [
-    path('', main_views.Home.as_view(), name='home'),
+    path('', index, name='home'),
+    path('<str:slug>/', PageView.as_view(), name='page'),
     path('catalog/', catalog_views.CategoryIndexView.as_view(), name='catalog:index'),
     path('catalog/<slug:slug>/', catalog_views.ProductDetailView.as_view(), name='catalog:product'),
 
