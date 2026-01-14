@@ -1,0 +1,58 @@
+{#{% load static %}#}
+{#<div class="product-set">#}
+{#    <h4 class="product-set-name">{{ product_set.name }}</h4>#}
+{#    <div class="product-set-products psp-{{ product_set.id }} owl-theme owl-carousel">#}
+{#        {% for item in product_set.products.all %}#}
+{#                <div class="item product">#}
+{#                    <a href="{{ item.get_absolute_url }}">#}
+{#                        {% if item.main_image %}#}
+{#                            <img src="{{ item.main_image.image_thumbnail.url }}" alt="">#}
+{#                        {% else %}#}
+{#                            <img src="{% static 'img/no-image.png' %}" alt="">#}
+{#                        {% endif %}#}
+{#                        <b class="text-danger product-price">{{ item.price }} грн.</b>#}
+{#                        <p class="product-name">{{ item.name }}</p>#}
+{#                    </a>#}
+{#                </div>#}
+{#        {% endfor %}#}
+{#    </div>#}
+{#</div>#}
+
+
+{% load static %}
+
+<div class="container mt-5">
+    <h4>{{ products_set.name }}</h4>
+    {% if products_set.products.all %}
+    <div id="productCarousel{{ products_set.id }}" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            {% for item in products_set.products.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <a href="{{ item.pk }}">
+                    {% if item.main_image %}
+                        <img src="{{ item.main_image.image_thumbnail.url }}" class="d-block w-100" alt="{{ item.name }}">
+                    {% else %}
+                        <img src="{% static 'img/no-image.png' %}" class="d-block w-100" alt="No image">
+                    {% endif %}
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>{{ item.name }}</h5>
+                        <p class="text-danger">{{ item.price }} грн.</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel{{ products_set.id }}" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#productCarousel{{ products_set.id }}" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    {% else %}
+        <p>No products available.</p>
+    {% endif %}
+</div>

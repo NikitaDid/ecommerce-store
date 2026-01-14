@@ -3,9 +3,13 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<h2>Welcome to My Store</h2>
-<p>Explore our catalog of products!</p>
+    {{ page.text | safe }}
+    {% for products_set in products_sets %}
+    	{% include 'main/_product_set.html' %}
+    {% endfor %}
+
 {% endblock %}
+
 <!--<!DOCTYPE html>-->
 <!--<html lang="en">-->
 <!--<head>-->
