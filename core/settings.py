@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'mathfilters',
     'rest_framework',
     'rest_framework.authtoken',
-    'tinymce'
+    'tinymce',
+    'adminsortable2',
 ]
 
 MIDDLEWARE = [
