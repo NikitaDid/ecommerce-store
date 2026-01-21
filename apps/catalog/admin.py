@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.catalog.models import Category, Product, ProductImage
+from apps.catalog.models import Category, Product, ProductImage, Comment
 
 
 @admin.register(Category)
@@ -27,3 +27,9 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductCategoryInline, ProductImageInline]
     list_display = ['id', 'image_tag', 'name', 'quantity', 'price', 'user', 'is_checked', 'created_at']
     list_display_links = ['id', 'name','image_tag']
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name','user','is_checked','created_at']
+    list_display_links = ['id','name']
