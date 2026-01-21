@@ -1,5 +1,3 @@
-from idlelib.rpc import request_queue
-
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 
@@ -30,9 +28,9 @@ def user_register(request):
             user.save()
             return render(request, 'user/welcome.html', {'user': user})
         error = form.errors
-    return render(request, 'user/register.html', {'error':error})
+    return render(request, 'user/register.html', {'error': error})
 
 
 def user_logout(request):
     logout(request)
-    return redirect('home.html')
+    return redirect('main/home.html')

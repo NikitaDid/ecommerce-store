@@ -144,3 +144,18 @@ class ProductCategory(models.Model):
     class Meta:
         verbose_name = 'Product Category'
         verbose_name_plural = 'Product Categories'
+
+
+class Comment(models.Model):
+    product = models.ForeignKey(Product, verbose_name='Product', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, verbose_name='User', null=True, blank=True, on_delete=models.SET_NULL)
+    name = models.CharField(verbose_name='Name', max_length=255)
+    email = models.EmailField(verbose_name='E-mail')
+    message = models.TextField(verbose_name='Text')
+    is_checked = models.BooleanField(verbose_name='Checked', default=False)
+    created_at = models.DateTimeField(verbose_name='Creation data', auto_now_add=True)
+
+
+    class Meta:
+        verbose_name = 'Comment'
+        verbose_name_plural = 'Comments'
