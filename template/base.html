@@ -10,40 +10,54 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    {% if request.user.is_authenticated %}
-        <p class="text-end">Hi, {{ request.user.username }}(<a href="{% url 'user:logout' %}">Logout</a>)</p>
-    {% else %}
-        <p class="text-end"><a href="{% url 'user:login' %}">Login</a>&nbsp;<a href="{% url 'user:register' %}">Register</a></p>
-    {% endif %}
-    <header class="bg-light py-3 mb-4">
-        <div class="container d-flex justify-content-between align-items-center">
-            <h1 class="h3 mb-0"><a href="{% url 'home' %}" class="text-decoration-none text-dark">My Store</a></h1>
-            <nav>
-                <a href="{% url 'catalog:category_list' %}" class="btn btn-outline-primary btn-sm">Catalog</a>
-            </nav>
-            <nav>
-                <a href="{% url 'page' slug='about' %}" class="btn btn-outline-primary btn-sm">About Us</a>
-            </nav>
-            <nav>
-                <a href="{% url 'page' slug='payment-and-shipping' %}" class="btn btn-outline-primary btn-sm">Payment and Shipping</a>
-            </nav>
-            <nav>
-                {% if request.user.is_authenticated %}
-                	<a href="{% url 'cart:cart' %}" class="btn btn-outline-primary btn-sm">Cart</a>
-                {% endif %}
-            </nav>
+<header class="bg-dark py-3 mb-4">
+    <div class="container d-flex justify-content-between align-items-center">
+
+        <h1 class="h3 mb-0">
+            <a href="{% url 'home' %}" class="text-decoration-none text-light">My Store</a>
+        </h1>
+
+        <nav>
+            <a href="{% url 'catalog:category_list' %}" class="btn header-btn">Catalog</a>
+        </nav>
+        <nav>
+            <a href="{% url 'page' slug='about' %}" class="btn header-btn">About Us</a>
+        </nav>
+        <nav>
+            <a href="{% url 'page' slug='payment-and-shipping' %}" class="btn header-btn">Payment and
+                Shipping</a>
+        </nav>
+        <nav>
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'cart:cart' %}" class="btn header-btn">Cart</a>
+            {% endif %}
+        </nav>
+
+        <div class="user-box d-flex justify-content-end align-items-center mb-3">
+            {% if request.user.is_authenticated %}
+                <div class="user-info">
+                    <span class="me-2">👋 Hi, <strong>{{ request.user.username }}</strong></span>
+                    <a href="{% url 'user:logout' %}" class="btn btn-outline-danger btn-sm">Logout</a>
+                </div>
+            {% else %}
+                <div class="auth-links">
+                    <a href="{% url 'user:login' %}" class="btn btn-outline-primary btn-sm me-2">Login</a>
+                    <a href="{% url 'user:register' %}" class="btn btn-primary btn-sm">Register</a>
+                </div>
+            {% endif %}
         </div>
-    </header>
+    </div>
+</header>
 
-    <main class="container">
-        {% block content %}{% endblock %}
-    </main>
+<main class="container">
+    {% block content %}{% endblock %}
+</main>
 
-    <footer class="bg-light py-3 mt-5 text-center">
-        <p class="mb-0">© 2025 My Store</p>
-    </footer>
+<footer class="bg-dark py-3 mt-5 text-center">
+    <p class="mb-0 text-light">© 2025 My Store</p>
+</footer>
 
-    <!-- Optional: Bootstrap JS bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Optional: Bootstrap JS bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

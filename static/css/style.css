@@ -24,3 +24,27 @@ footer {
     background-color: #f8f9fa;
     padding: 1rem 0;
 }
+
+.user-box {
+    padding: 10px 15px;
+}
+.user-info,
+.auth-links {
+    background: #1f1f1f;
+    color: #fff;
+}
+
+.user-info strong {
+    color: #4dabf7;
+}
+.header-btn {
+    color: #d1d5db;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: transparent;
+}
+
+.header-btn:hover {
+    color: #fff;
+    border-color: #6b7280;
+    background: rgba(31, 41, 55, 0.07);
+}

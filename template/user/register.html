@@ -14,19 +14,19 @@
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="mb-3">
-                    <label for="username" class="form-label">Логин</label>
+                    <label for="username" class="form-label">login</label>
                     <input type="text" class="form-control" id="username" name="username" required>
                 </div>
                 <div class="mb-3">
-                    <label for="image" class="form-label">Аватар</label>
+                    <label for="image" class="form-label">Profile picture</label>
                     <input type="file" class="form-control" id="image" name="image" required>
                 </div>
                 <div class="mb-3">
-                    <label for="first_name" class="form-label">Имя</label>
+                    <label for="first_name" class="form-label">Name</label>
                     <input type="text" class="form-control" id="first_name" name="first_name" required>
                 </div>
                 <div class="mb-3">
-                    <label for="last_name" class="form-label">Фамилия</label>
+                    <label for="last_name" class="form-label">Surname</label>
                     <input type="text" class="form-control" id="last_name" name="last_name" required>
                 </div>
                 <div class="mb-3">
@@ -34,7 +34,7 @@
                     <input type="email" class="form-control" id="email" name="email" required>
                 </div>
                 <div class="mb-3">
-                    <label for="phone" class="form-label">Телефон</label>
+                    <label for="phone" class="form-label">Phone number</label>
                     <input type="text" class="form-control" id="phone" name="phone" required>
                 </div>
                 <div class="mb-3">
@@ -42,14 +42,14 @@
                     <textarea name="about" id="about" cols="30" rows="3" class="form-control"></textarea>
                 </div>
                 <div class="mb-3">
-                    <label for="password" class="form-label">Пароль</label>
+                    <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" id="password" name="password">
                 </div>
                 <div class="mb-3">
-                    <label for="password_confirm" class="form-label">Повторите пароль</label>
+                    <label for="password_confirm" class="form-label">Repeat a password</label>
                     <input type="password" class="form-control" id="password_confirm" name="password_confirm">
                 </div>
-                <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                <button type="submit" class="btn btn-primary">Register</button>
             </form>
         </div>
     </div>
